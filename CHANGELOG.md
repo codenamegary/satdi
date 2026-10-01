@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/codenamegary/satdi/compare/v1.0.0...v1.0.1) (2026-10-01)
+
+
+### Bug Fixes
+
+* validate release build pipeline end to end ([5cf5745](https://github.com/codenamegary/satdi/commit/5cf574552f341458cf2ed879cb2cd32f48c46316))
+
 ## 1.0.0 (2026-10-01)
 
 
