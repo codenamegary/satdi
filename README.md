@@ -3,6 +3,19 @@
 A tiny Windows 11 background utility that refuses to let the operating system
 hide your system tray icons ever again.
 
+## Quick install
+
+Open PowerShell, paste this, done. It grabs the latest release, drops it in
+`%LOCALAPPDATA%\satdi`, adds the Startup-folder shortcut so it runs with
+Windows, and starts showing all the damn icons immediately:
+
+```powershell
+$d="$env:LOCALAPPDATA\satdi"; $a=(irm https://api.github.com/repos/codenamegary/satdi/releases/latest).assets | where name -like 'satdi-*-win-x64.exe' | select -First 1; ni -ItemType Directory -Force $d | Out-Null; irm $a.browser_download_url -OutFile "$d\satdi.exe"; $s=(New-Object -ComObject WScript.Shell).CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\satdi.lnk"); $s.TargetPath="$d\satdi.exe"; $s.Save(); Start-Process "$d\satdi.exe"
+```
+
+Prefer to do it by hand? [Install](#install) spells out exactly what that
+one-liner does.
+
 ---
 
 ## The frustration
@@ -62,6 +75,9 @@ No admin rights. No services. No drivers. It's all under
 - It does not phone home, install a service, or add a sketchy scheduled task.
 
 ## Install
+
+(The [Quick install](#quick-install) one-liner up top does all three of these
+for you.)
 
 1. Grab `satdi-<version>-win-x64.exe` from the
    [latest release](https://github.com/codenamegary/satdi/releases/latest).

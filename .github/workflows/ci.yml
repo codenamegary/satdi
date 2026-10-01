@@ -1,4 +1,6 @@
-name: ci
+# Workflow display name is "CI"; the job below is named "ci" on purpose so
+# the required status check on `main` is unambiguously "ci".
+name: CI
 
 on:
   push:
