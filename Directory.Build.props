@@ -1,0 +1,19 @@
+<Project>
+
+  <!--
+    Shared build settings for every project in the satdi repo.
+    Keep this boring on purpose: one little Windows exe, nothing else.
+  -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <Version>0.1.0</Version>
+    <Company>satdi</Company>
+    <Product>satdi</Product>
+    <Copyright>Copyright (c) satdi contributors</Copyright>
+  </PropertyGroup>
+
+</Project>

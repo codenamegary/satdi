@@ -1,0 +1,75 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+# release-please needs to write contents (tags/releases), open PRs, and label
+# them. Scoped to the job; nothing else in this workflow needs privileges.
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      # "true" when this run actually cut a release (i.e. a release PR was
+      # merged). The build job below keys off these.
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          # A PAT (not the default GITHUB_TOKEN) is required so that the tag
+          # and release that release-please creates can trigger the build
+          # workflow below. Set this secret in repo Settings > Secrets.
+          token: ${{ secrets.RELEASE_PAT }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  # Only runs when release-please reports a fresh release. Compiles the exe
+  # on a real Windows runner and uploads it to the release it just created.
+  build-and-attach:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish satdi.exe
+        shell: pwsh
+        run: |
+          dotnet publish src/satdi/satdi.csproj `
+            -c Release `
+            -r win-x64 `
+            -o artifacts `
+            /p:Version=${{ needs.release-please.outputs.tag_name }}
+
+      - name: Rename artifact with version
+        shell: pwsh
+        run: |
+          $tag = "${{ needs.release-please.outputs.tag_name }}"
+          Move-Item artifacts/satdi.exe "artifacts/satdi-$tag-win-x64.exe"
+          Get-ChildItem artifacts
+
+      - name: Upload to the release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
+          files: artifacts/satdi-*-win-x64.exe
+          token: ${{ secrets.RELEASE_PAT }}

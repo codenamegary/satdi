@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Publish (single-file, self-contained)
+        run: dotnet publish src/satdi/satdi.csproj -c Release -r win-x64 -o artifacts
+
+      - name: Smoke test the exe
+        shell: pwsh
+        run: |
+          # --sweep promotes every existing tray icon and exits; a zero exit
+          # code proves the binary links, starts, and can hit the registry.
+          $p = Start-Process -FilePath artifacts/satdi.exe -ArgumentList '--sweep' -PassThru -Wait
+          if ($p.ExitCode -ne 0) { throw "satdi --sweep exited with $($p.ExitCode)" }
+          Write-Host "satdi --sweep exited cleanly."
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: satdi-win-x64
+          path: artifacts/satdi.exe
+          if-no-files-found: error

@@ -1,0 +1,19 @@
+# Build output
+bin/
+obj/
+publish/
+artifacts/
+
+# Rider / VS / VS Code
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local logs
+*.log
+
+# OS noise
+Thumbs.db
+desktop.ini
+.DS_Store
