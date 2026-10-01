@@ -53,12 +53,16 @@ jobs:
 
       - name: Publish satdi.exe
         shell: pwsh
+        # MSBuild's Version property wants bare semver (1.0.0), but the tag
+        # carries a leading "v" (v1.0.0); trim it just for the build.
         run: |
+          $tag = "${{ needs.release-please.outputs.tag_name }}"
+          $ver = $tag.TrimStart('v')
           dotnet publish src/satdi/satdi.csproj `
             -c Release `
             -r win-x64 `
             -o artifacts `
-            /p:Version=${{ needs.release-please.outputs.tag_name }}
+            /p:Version=$ver
 
       - name: Rename artifact with version
         shell: pwsh
