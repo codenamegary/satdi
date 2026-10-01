@@ -1,6 +1,4 @@
-# satdi
-
-**S**how **A**ll **T**he **D**amn **I**cons.
+# SATDI - SHOW ALL THE DAMN ICONS
 
 A tiny Windows 11 background utility that refuses to let the operating system
 hide your system tray icons ever again.
