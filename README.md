@@ -109,19 +109,22 @@ stays resident and watches for new icons.
    and block on it. New tray icon = new subkey = the call returns.
 3. Sweep again. Repeat forever.
 
-Built as a single self-contained `.exe` with the .NET 10 SDK — no runtime
-install required, no console window, ~10 MB standing still.
+Built as a single native `.exe` with the .NET 10 SDK and Native AOT — no
+runtime install required, no console window, ~1 MB standing still.
 
 ## Building from source
 
-Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
+Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download) plus the
+MSVC linker — install Visual Studio Build Tools with the
+**"Desktop development with C++"** workload (GitHub's `windows-latest`
+runners already have it).
 
 ```powershell
 dotnet publish src/satdi/satdi.csproj -c Release -r win-x64 -o publish
 ```
 
-The result is `publish/satdi.exe`: a single, self-contained, trimmed Windows
-executable.
+The result is `publish/satdi.exe`: a single, native (AOT-compiled)
+Windows executable.
 
 ## Releases
 
