@@ -13,16 +13,17 @@
     <RootNamespace>Satdi</RootNamespace>
     <AssemblyName>satdi</AssemblyName>
 
-    <!-- Single, self-contained file: no .NET runtime install required. -->
-    <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>true</SelfContained>
-    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!--
+      Native AOT: compiled straight to x64 machine code. No .NET runtime
+      embedded, no JIT, no self-extract-on-first-run — the result is a
+      single native .exe (~1-3 MB) that starts instantly.
 
-    <!-- Trim-friendly, but reflection-free so trimming is safe. -->
-    <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>full</TrimMode>
+      Building this locally requires the MSVC linker, i.e. Visual Studio
+      Build Tools with the "Desktop development with C++" workload.
+      GitHub's windows-latest runners have it preinstalled.
+    -->
+    <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 
     <!-- We only talk to the Win32 registry + a tiny bit of interop. -->
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
