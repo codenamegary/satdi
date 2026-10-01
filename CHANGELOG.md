@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2](https://github.com/codenamegary/satdi/compare/v1.0.1...v1.0.2) (2026-10-01)
+
+
+### Performance
+
+* compile with Native AOT ([#8](https://github.com/codenamegary/satdi/issues/8)) ([c6e62dd](https://github.com/codenamegary/satdi/commit/c6e62ddd49894c513c792dec6ed1611dbf66b1ae))
+
+
+### Documentation
+
+* add one-liner quick install to README ([#6](https://github.com/codenamegary/satdi/issues/6)) ([3518b67](https://github.com/codenamegary/satdi/commit/3518b678fbe6ab021e3ebc739c2447298e73cd71))
+
 ## [1.0.1](https://github.com/codenamegary/satdi/compare/v1.0.0...v1.0.1) (2026-10-01)
 
 
