@@ -117,13 +117,6 @@ Versioning and changelogs are handled by
 release PR it opens, and CI builds and attaches the `.exe` to the new GitHub
 Release automatically.
 
-> **Note for maintainers:** release-please is configured to use a
-> `RELEASE_PAT` repository secret (a fine-grained personal access token with
-> `contents: write`). This is required so the release it creates can trigger
-> the follow-up build job — the default `GITHUB_TOKEN` cannot trigger
-> downstream workflows. Add it under
-> **Settings → Secrets and variables → Actions**.
-
 ## License
 
 MIT. See [LICENSE](LICENSE).

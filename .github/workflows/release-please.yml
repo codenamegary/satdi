@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 # release-please needs to write contents (tags/releases), open PRs, and label
 # them. Scoped to the job; nothing else in this workflow needs privileges.
@@ -25,9 +26,8 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          # A PAT (not the default GITHUB_TOKEN) is required so that the tag
-          # and release that release-please creates can trigger the build
-          # workflow below. Set this secret in repo Settings > Secrets.
+          # A PAT (not the default GITHUB_TOKEN) so that the tag and release
+          # release-please creates can trigger the build job below.
           token: ${{ secrets.RELEASE_PAT }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
